@@ -13,7 +13,7 @@ class App extends React.Component {
     );
   }
 
-  render() {
+  renderContent() {
     if (!this.state.lat && this.state.errorMessage) {
       return <div>Error: {this.state.errorMessage}</div>;
     }
@@ -24,9 +24,13 @@ class App extends React.Component {
 
     return (
       <div>
-        <Spinner />>
+        <Spinner message="Please accept geolocation request" />>
       </div>
     );
+  }
+
+  render() {
+    return this.renderContent();
   }
 }
 
