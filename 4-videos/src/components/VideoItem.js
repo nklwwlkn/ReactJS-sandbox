@@ -1,17 +1,24 @@
+import "./VideoItem.css";
 import React from "react";
 
-const VideoItem = ({ videos }) => {
+const VideoItem = ({ videos, onVideoSelect }) => {
   const renderedItems = videos.map(video => {
     console.log(video);
     return (
-      <div key={video.id.videoId}>
-        <img src={video.snippet.thumbnails.medium.url} />
-        {video.snippet.title}
+      <div
+        className="video-item item"
+        key={video.id.videoId}
+        onClick={() => onVideoSelect(video)}
+      >
+        <img className="ui image" src={video.snippet.thumbnails.medium.url} />
+        <div className="content">
+          <div className="header">{video.snippet.title}</div>
+        </div>
       </div>
     );
   });
 
-  return <div>{renderedItems}</div>;
+  return <div className="ui relaxed divided list">{renderedItems}</div>;
 };
 
 export default VideoItem;
