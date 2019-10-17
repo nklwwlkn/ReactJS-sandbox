@@ -1,10 +1,12 @@
 import React from "react";
 import SearchBar from "./SearchBar";
 import VideoList from "./VideoList";
+import VideoDetail from "./VideoDetail";
 import youtube from "./../apis/youtube";
 
 class App extends React.Component {
-  state = { videos: [] };
+  state = { videos: [], selectedVideo: null };
+
   onSearchSubmit = async term => {
     try {
       console.log(term);
@@ -17,17 +19,40 @@ class App extends React.Component {
         }
       });
 
-      this.setState({ videos: response.data.items });
+      this.setState({
+        videos: response.data.items,
+        selectedVideo: response.data.items[0]
+      });
     } catch (err) {
       console.log(err);
     }
   };
 
+  onVideoSelect = video => {
+    this.setState({ selectedVideo: video });
+  };
+
+  componentDidMount() {
+    this.onSearchSubmit("buildings");
+  }
+
   render() {
     return (
       <div className="ui container">
         <SearchBar onSubmit={this.onSearchSubmit} />
-        <VideoList videos={this.state.videos} />
+        <div className="ui grid">
+          <div className="ui row">
+            <div className="ui eleven wide column">
+              <VideoDetail video={this.state.selectedVideo} />
+            </div>
+            <div className="ui five wide column">
+              <VideoList
+                videos={this.state.videos}
+                onVideoSelect={this.onVideoSelect}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
