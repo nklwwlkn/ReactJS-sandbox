@@ -43,7 +43,7 @@ const claimHistoryReducer = (oldListOfClaims = [], action) => {
 
 const accountHistoryReducer = (moneyOfCompany = 100, action) => {
   if (action.type === "CREATE_CLAIM") {
-    return moneyOfCompany + action.payload.amountOfMoneyToCollect;
+    return moneyOfCompany - action.payload.amountOfMoneyToCollect;
   } else if (action.type === "CREATE_POLICY") {
     return moneyOfCompany + action.payload.amount;
   }
@@ -51,7 +51,7 @@ const accountHistoryReducer = (moneyOfCompany = 100, action) => {
   return moneyOfCompany;
 };
 
-const policies = (listOfPolicies, action) => {
+const policyHistoryReducer = (listOfPolicies = [], action) => {
   if (action.type === "CREATE_POLICY") {
     return [...listOfPolicies, action.payload.name];
   } else if (action.type === "DELETE_POLICY") {
@@ -59,3 +59,18 @@ const policies = (listOfPolicies, action) => {
   }
   return listOfPolicies;
 };
+
+const ourDepartments = Redux.combineReducers({
+  claimHistoryReducer: claimHistoryReducer,
+  accountHistoryReducer: accountHistoryReducer,
+  policyHistoryReducer: policyHistoryReducer
+});
+
+const store = Redux.createStore(ourDepartments);
+
+store.dispatch(createPolicy("Bob", 20));
+store.dispatch(createPolicy("Alex", 20));
+store.dispatch(createClaim("Alex", 40));
+store.dispatch(deletePolicy("Bob"));
+
+console.log(store.getState());
