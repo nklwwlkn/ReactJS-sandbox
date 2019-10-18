@@ -30,3 +30,23 @@ const createClaim = (name, amountOfMoneyToCollect) => {
     }
   };
 };
+
+//* REDUCERS:
+
+const claimHistoryReducer = (oldListOfClaims = [], action) => {
+  if (action.type !== "CREATE_CLAIM") {
+    return oldListOfClaims;
+  }
+
+  return [...oldListOfClaims, action.payload];
+};
+
+const accountHistoryReducer = (moneyOfCompany = 100, action) => {
+  if (action.type === "CREATE_CLAIM") {
+    return moneyOfCompany + action.payload.amountOfMoneyToCollect;
+  } else if (action.type === "CREATE_POLICY") {
+    return moneyOfCompany + action.payload.amount;
+  }
+
+  return moneyOfCompany;
+};
