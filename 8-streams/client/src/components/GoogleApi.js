@@ -1,0 +1,59 @@
+import React from "react";
+
+class GoogleApi extends React.Component {
+  state = { isSignedIn: null };
+
+  componentDidMount() {
+    window.gapi.load("client:auth2", () => {
+      window.gapi.client
+        .init({
+          clientId:
+            "668445984899-q1ss1p5dojgqnbgtuivu47ga8jphedhb.apps.googleusercontent.com",
+          scope: "email"
+        })
+        .then(() => {
+          this.auth2 = window.gapi.auth2.getAuthInstance();
+          this.setState({ isSignedIn: this.auth2.isSignedIn.get() });
+          this.auth2.isSignedIn.listen(this.onAuthChange);
+        });
+    });
+  }
+
+  onAuthChange = () => {
+    this.setState({ isSignedIn: this.auth2.isSignedIn.get() });
+  };
+
+  signIn = () => {
+    this.auth2.signIn();
+  };
+
+  signOut = () => {
+    this.auth2.signOut();
+  };
+
+  renderSignInButton() {
+    if (this.state.isSignedIn === null) {
+      return null;
+    } else if (this.state.isSignedIn) {
+      return (
+        <button className="ui red google button" onClick={this.signOut}>
+          <i className="google icon"></i>
+          Sign out
+        </button>
+      );
+    } else {
+      return (
+        <button className="ui red google button" onClick={this.signIn}>
+          <i className="google icon"></i>
+          Sign in with Google
+        </button>
+      );
+    }
+  }
+
+  render() {
+    return <div>{this.renderSignInButton()}</div>;
+  }
+}
+
+export default GoogleApi;
