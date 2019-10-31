@@ -23,11 +23,11 @@ class GoogleApi extends React.Component {
     this.setState({ isSignedIn: this.auth2.isSignedIn.get() });
   };
 
-  signIn = () => {
+  onSignInClick = () => {
     this.auth2.signIn();
   };
 
-  signOut = () => {
+  onSignOutClick = () => {
     this.auth2.signOut();
   };
 
@@ -36,14 +36,14 @@ class GoogleApi extends React.Component {
       return null;
     } else if (this.state.isSignedIn) {
       return (
-        <button className="ui red google button" onClick={this.signOut}>
+        <button className="ui red google button" onClick={this.onSignOutClick}>
           <i className="google icon"></i>
           Sign out
         </button>
       );
     } else {
       return (
-        <button className="ui red google button" onClick={this.signIn}>
+        <button className="ui red google button" onClick={this.onSignInClick}>
           <i className="google icon"></i>
           Sign in with Google
         </button>
