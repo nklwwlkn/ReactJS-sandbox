@@ -1,4 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
+
+import { signIn, signOut } from "../actions";
 
 class GoogleApi extends React.Component {
   state = { isSignedIn: null };
@@ -19,8 +22,12 @@ class GoogleApi extends React.Component {
     });
   }
 
-  onAuthChange = () => {
-    this.setState({ isSignedIn: this.auth2.isSignedIn.get() });
+  onAuthChange = isSignedIn => {
+    if (isSignedIn) {
+      this.props.signIn();
+    } else {
+      this.props.signOut();
+    }
   };
 
   onSignInClick = () => {
@@ -56,4 +63,10 @@ class GoogleApi extends React.Component {
   }
 }
 
-export default GoogleApi;
+export default connect(
+  null,
+  {
+    signIn,
+    signOut
+  }
+)(GoogleApi);
