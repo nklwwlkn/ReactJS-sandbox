@@ -22,7 +22,7 @@ class GoogleApi extends React.Component {
 
   onAuthChange = isSignedIn => {
     if (isSignedIn) {
-      this.props.signIn();
+      this.props.signIn(this.auth2.currentUser.get().getId());
     } else {
       this.props.signOut();
     }
@@ -62,7 +62,7 @@ class GoogleApi extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state.auth.isSignedIn);
+  console.log(state.auth.isSignedIn, state.auth.userId);
   return {
     isSignedIn: state.auth.isSignedIn
   };
