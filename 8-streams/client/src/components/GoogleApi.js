@@ -66,10 +66,7 @@ const mapStateToProps = state => {
     isSignedIn: state.auth.isSignedIn
   };
 };
-export default connect(
-  mapStateToProps,
-  {
-    signIn,
-    signOut
-  }
-)(GoogleApi);
+export default connect(mapStateToProps, {
+  signIn,
+  signOut
+})(GoogleApi);
