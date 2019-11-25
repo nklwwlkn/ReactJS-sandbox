@@ -1,11 +1,14 @@
 import React from "react";
 
+import LanguageSelector from "./LanguageSelector";
 import UserForm from "./UserForm";
+import LanguageContext from "../contexts/LanguageContext";
+import ColorContext from "../contexts/ColorContext";
 
 class App extends React.Component {
   state = { language: "english" };
 
-  onChangeLanguage = language => {
+  onLanguageChange = language => {
     this.setState({ language });
     console.log(this.state.language);
   };
@@ -13,16 +16,12 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        Select a language:
-        <i
-          onClick={() => this.onChangeLanguage("english")}
-          className="us flag"
-        ></i>
-        <i
-          onClick={() => this.onChangeLanguage("dutch")}
-          className="nl flag"
-        ></i>
-        <UserForm />
+        <LanguageSelector onLanguageChange={this.onLanguageChange} />
+        <ColorContext.Provider value="red">
+          <LanguageContext.Provider value={this.state.language}>
+            <UserForm />
+          </LanguageContext.Provider>
+        </ColorContext.Provider>
       </div>
     );
   }
